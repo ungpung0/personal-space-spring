@@ -12,11 +12,9 @@ import javax.persistence.*;
 @AllArgsConstructor         // auto create every type param constructor.
 @NoArgsConstructor          // auto create non-param constructor.
 public class Memo {
-
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // set PK generation strategy.
-    private Long memo;
-
+    private Long memoId;
     @Column(length = 200, nullable = false) // set Column with options.
     private String memoText;
 }
