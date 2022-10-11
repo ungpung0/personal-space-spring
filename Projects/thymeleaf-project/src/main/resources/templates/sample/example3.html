@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h3 th:text="${result}"/>
+    <h3 th:text="${dto}"/>
+
+    <script th:inline="javascript">
+        var message = /*result*/ [[${result}]]; <!-- th 변수를 자바스크립트로 대입할 때 발생하는 문제(따옴표, 주석, 이스케이프)들을 처리한다. -->
+        var dto = [[${dto}]];
+    </script>
+</body>
+</html>

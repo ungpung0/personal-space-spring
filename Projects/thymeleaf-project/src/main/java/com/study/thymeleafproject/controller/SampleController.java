@@ -23,7 +23,7 @@ public class SampleController {
         log.info("example1 Log...");
     }
 
-    @GetMapping("/example2")
+    @GetMapping({"/example2", "/exLink"}) // @GetMapping 속성을 {}로 지정하면 여러 URL에 뿌려줄 수 있다.
     public void exampleModel(Model model) { // Model 객체는 request.setAttribute와 비슷한 역할을 수행하며, 스프링이 모델을 자동생성한다.
 
         List<SampleDTO> list = IntStream.rangeClosed(1, 20).asLongStream().mapToObj(i -> { // asLongStream으로 IntStream의 int 요소를 long 타입으로 변환할 수 있다.
@@ -34,7 +34,7 @@ public class SampleController {
         model.addAttribute("list", list); // 마지막으로 Model 객체에 담아서 전송한다.
     }
 
-    @GetMapping({"/exInline"}) // @GetMapping 속성을 {}로 지정하면 여러 URL에 뿌려줄 수 있다.
+    @GetMapping({"/exInline"})
     public String exampleInline(RedirectAttributes redirectAttributes) { // 리다이렉션에 사용할 속성.
         log.info("exampleInline Log...");
 

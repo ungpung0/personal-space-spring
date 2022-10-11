@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <ul>
+        <li th:each="dto : ${list}">
+            <a th:href="@{/sample/exView(sampleId=${dto.sampleId})}"> <!-- 링크 경로에 해당하는 문서에 (키=값) 형태로 파라미터를 전송 -->
+                [[${dto}]]
+            </a>
+            <!-- 경로를 추가하고 싶으면 위에 '/{sampleId}'를 추가할 수 있다. -->
+        </li>
+    </ul>
+</body>
+</html>
