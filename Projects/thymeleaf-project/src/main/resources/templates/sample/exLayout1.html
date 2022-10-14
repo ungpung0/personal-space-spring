@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-    <h2>Fragment Test</h2>
+    <h2>Fragment 테스트1 (replace, insert)</h2>
+    <h3>Layout 1-1</h3> <!-- ~{}는 경로를의미하며, ~{경로 :: 템플릿명} 형식으로 사용한다. -->
+    <div th:replace="~{/fragments/fragment1 :: part1}"/> <!-- th:replace는 템플릿 조각을 대체한다. -->
+    <h3>Layout 1-2</h3>
+    <div th:insert="~{/fragments/fragment1 :: part2}"/> <!-- th:insert는 템플릿 조각을 삽입한다. -->
+    <h3>Layout 1-3</h3>
+    <th:block th:replace="~{/fragments/fragment1 :: part3}"/> <!-- th:block은 반복문을 처리할 때 나눌 수 있다. -->
     <br>
-    <h2>Layout 1-1</h2>
-    <div th:replace="~{/fragments/fragment1 :: part1}"/>
-    <h2>Layout 1-2</h2>
-    <div th:insert="~{/fragments/fragment1 :: part2}"/>
-    <h2>Layout 1-3</h2>
-    <th:block th:replace="~{/fragments/fragment1 :: part3}"/>
-    <!-- -->
+    <h2>Fragment 테스트2 (전체 삽입)</h2>
+    <div>
+        <th:block th:replace="~{/fragments/fragment2}"></th:block>
+    </div>
 </body>
 </html>

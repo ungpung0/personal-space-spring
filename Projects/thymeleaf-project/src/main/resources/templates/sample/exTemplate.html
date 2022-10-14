@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout/layout1 :: setContent(~{this::content})}"> <!-- 레이아웃에 content 파라미터를 설정한다. -->
+    <th:block th:fragment="content">
+        <h3>Template Example</h3>
+    </th:block>
+</th:block>
+</html>

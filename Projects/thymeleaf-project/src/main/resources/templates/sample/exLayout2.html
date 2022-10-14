@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <th:block th:replace="~{/fragments/fragment3 :: target(~{this :: #ulFirst}, ~{this :: #ulSecond})}">
+        <ul id="ulFirst"> <!-- target()에 해당 id의 요소를 fragment3의 레이아웃을 사용하여 구현한다. -->
+            <li>AAA</li>
+            <li>BBB</li>
+            <li>CCC</li>
+        </ul>
+        <ul id="ulSecond">
+            <li>AAA</li>
+            <li>BBB</li>
+            <li>CCC</li>
+        </ul>
+    </th:block>
+</body>
+</html>
