@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
 import javax.transaction.Transactional;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
