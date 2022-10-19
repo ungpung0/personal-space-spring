@@ -7,7 +7,13 @@ import com.study.guestbookproject.entity.Guestbook;
 
 public interface GuestbookService {
 
-    Long register(GuestbookDTO guestbookDTO);
+    Long register(GuestbookDTO guestbookDTO); // 회원가입.
+
+    GuestbookDTO read(Long gno); // 조회.
+
+    void remove(Long gno); // 삭제.
+
+    void modify(GuestbookDTO guestbookDTO); // 수정.
 
     PageResultDTO<GuestbookDTO, Guestbook> getList(PageRequestDTO pageRequestDTO);
 

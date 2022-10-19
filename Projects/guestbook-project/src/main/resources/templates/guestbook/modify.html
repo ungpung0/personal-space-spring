@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout/basic::setContent(~{this::content})}">
+  <th:block th:fragment="content">
+    <!-- 제목 출력. -->
+    <h1 class="mt-4">Guestbook Modify Page</h1>
+
+    <!-- 게시글 내용 출력. -->
+    <form action="/guestbook/modify" method="post">
+      <!-- 숨김 항목. -->
+      <input type="hidden" name="page" th:value="${requestDTO.page}">
+      <input type="hidden" name="type" th:value="${requestDTO.type}">
+      <input type="hidden" name="keyword" th:value="${requestDTO.keyword}">
+      <!-- 보임 항목. -->
+      <div class="form-group">
+        <label>Gno</label>
+        <input type="text" class="form-control" name="gno" th:value="${dto.gno}" readonly>
+      </div>
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" class="form-control" name="title" th:value="${dto.title}">
+      </div>
+      <div class="form-group">
+        <label>Content</label>
+        <textarea class="form-control" rows="5" name="content">[[${dto.content}]]</textarea>
+      </div>
+      <div class="form-group">
+        <label>Writer</label>
+        <input type="text" class="form-control" name="writer" th:value="${dto.writer}" readonly>
+      </div>
+      <div class="form-group">
+        <label>RegDate</label> <!-- 자동으로 JPA에서 처리할 것이므로 name 속성을 삭제한다. -->
+        <input type="text" class="form-control" th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+      </div>
+      <div class="form-group">
+        <label>ModDate</label> <!-- 자동으로 JPA에서 처리할 것이므로 name 속성을 삭제한다. -->
+        <input type="text" class="form-control" th:value="${#temporals.format(dto.modDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+      </div>
+    </form>
+
+    <!-- 삭제 버튼 폼. -->
+    <button type="button" class="btn btn-primary modifyButton">Modify</button>
+    <button type="button" class="btn btn-info listButton">List</button>
+    <button type="button" class="btn btn-danger removeButton">Remove</button>
+
+    <script>
+      var actionForm = $("form"); // form 요소를 가져온다.
+
+      // 삭제 이벤트.
+      $(".removeButton").click(function () {
+        actionForm
+                .attr("action", "/guestbook/remove")
+                .attr("method", "post");
+        actionForm.submit();
+        // form 요소의 action을 'remove'로 바꾸고, submit한다.
+      });
+
+      // 수정 이벤트.
+      $(".modifyButton").click(function () {
+        if(!confirm("수정하겠습니까?")) {
+          return;
+        }
+        actionForm
+                .attr("action", "/guestbook/modify")
+                .attr("method", "post")
+                .submit();
+      });
+
+      // 목록 이벤트.
+      $(".listButton").click(function () {
+        var page = $("input[name='page']");
+        var type = $("input[name='type']");
+        var keyword = $("input[name='keyword']");
+        actionForm.empty();          // form 내용을 전부 지운다.
+        actionForm.append(page);
+        actionForm.append(type);
+        actionForm.append(keyword);
+        actionForm
+                .attr("action", "/guestbook/list")
+                .attr("method", "get");
+        actionForm.submit();
+      });
+    </script>
+  </th:block>
+</th:block>
+</html>

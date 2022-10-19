@@ -13,9 +13,10 @@ import org.springframework.data.domain.Sort;
 @Data
 public class PageRequestDTO {
 
-    private int page; // 기준 페이지.
-    private int size; // 출력 사이즈.
-
+    private int page;       // 기준 페이지.
+    private int size;       // 출력 사이즈.
+    private String type;    // 검색 타입.
+    private String keyword; // 검색 내용.
     public PageRequestDTO() { // 기본 생성자.
         this.page = 1;
         this.size = 10;
