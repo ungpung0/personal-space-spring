@@ -19,4 +19,12 @@ public class BoardEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY) // 지연 로딩을 적용한다.
     private MemberEntity writer; // Member와 다대일 관계인 writer. (기본키를 참조)
 
+    public void changeTitle(String title) {
+        this.title = title;
+    }
+
+    public void changeContent(String content) {
+        this.content = content;
+    }
+
 }
