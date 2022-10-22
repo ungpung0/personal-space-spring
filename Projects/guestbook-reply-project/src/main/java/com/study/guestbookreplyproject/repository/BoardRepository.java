@@ -1,6 +1,7 @@
 package com.study.guestbookreplyproject.repository;
 
 import com.study.guestbookreplyproject.entity.BoardEntity;
+import com.study.guestbookreplyproject.repository.search.SearchBoardRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
+public interface BoardRepository extends JpaRepository<BoardEntity, Long>, SearchBoardRepository {
     // LEFT JOIN 조회 JPQL 예제.
     @Query("SELECT b, w FROM BoardEntity b LEFT JOIN b.writer w WHERE b.bno =:bno")
     Object getBoardWithWriter(@Param("bno") Long bno); // SQL 문장에 파라미터를 전달할 때 사용한다.

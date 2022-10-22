@@ -86,4 +86,9 @@ public class BoardRepositoryTests {
         System.out.println(Arrays.toString(array));
     }
 
+    @Test
+    public void testSearch1() {
+        boardRepository.search();
+    }
+
 }
