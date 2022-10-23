@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-
 public interface BoardRepository extends JpaRepository<BoardEntity, Long>, SearchBoardRepository {
     // LEFT JOIN 조회 JPQL 예제.
     @Query("SELECT b, w FROM BoardEntity b LEFT JOIN b.writer w WHERE b.bno =:bno")
