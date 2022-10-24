@@ -16,6 +16,6 @@ public class ReplyEntity extends BaseEntity {
     private Long rno;
     private String text;
     private String replyer;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private BoardEntity board; // Board와 다대일 관계인 board. (기본키를 참조)
 }
