@@ -33,4 +33,22 @@ public class ReplyController {
 
         return new ResponseEntity<>(rno, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{rno}")
+    public ResponseEntity<String> remove(@PathVariable("rno") Long rno) {
+        log.info("Call Remove Method\n" + rno);
+
+        replyService.remove(rno);
+
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @PutMapping("/{rno}")
+    public ResponseEntity<String> modify(@RequestBody ReplyDTO replyDTO) {
+        log.info("Call Modify Method\n" + replyDTO);
+
+        replyService.modify(replyDTO);
+
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
 }
