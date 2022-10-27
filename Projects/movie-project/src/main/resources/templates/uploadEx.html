@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <input name="uploadFiles" type="file" multiple>
+    <button class="uploadButton">Upload</button>
+
+    <div class="uploadResult"> <!-- 추가한 이미지가 표시될 div. -->
+
+    </div>
+
+    <!-- 암호화 CDN 방식을 통하여 JQuery 임포트. -->
+    <script
+            src="https://code.jquery.com/jquery-3.6.1.js"
+            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+            crossorigin="anonymous"></script>
+    <script>
+        // 업로드한 이미지(썸네일)를 보여주는 함수.
+        function showUploadedImages(arr) {
+            console.log(arr);
+
+            var divArea = $(".uploadResult");
+            var divContent = "";
+
+            for(var i = 0; i < arr.length; i++) {
+                divContent += "<div>";
+                divContent += "<img src='/display?fileName=" + arr[i].thumbnailURL + "'>";
+                divContent += "<button class='removeButton' data-name='" + arr[i].imageURL + "'>REMOVE</button>";
+                divContent += "</div>"
+            }
+            divArea.append(divContent);
+        }
+
+        // 버튼을 클릭하여 파일을 데이터에 추가하고 콘솔에 출력한다.
+        $('.uploadButton').click(function() {
+            var formData = new FormData();
+            var inputFile = $("input[type='file']");
+            var files = inputFile[0].files;
+
+            for(var i = 0; i < files.length; i++) {
+                console.log(files[i]);
+                formData.append("uploadFiles", files[i]);
+            }
+
+            // Ajax를 통하여 실제 업로드.
+            $.ajax({
+                url: '/uploadAjax',
+                processData: false,
+                contentType: false,
+                data: formData,
+                type: 'post',
+                dataType: 'json',
+                success: function(result) {
+                    showUploadedImages(result);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus);
+                }
+            });
+        });
+
+        // 버튼을 클릭하여 이미지를 삭제하고 콘솔에 출력한다.
+        $(".uploadResult").on("click", ".removeButton", function(e) {
+           var target = $(this);
+           var fileName = target.data("name");
+           var targetDiv = $(this).closest("div");
+
+           console.log(fileName);
+
+           $.post('/removeFile', {fileName: fileName}, function (result) {
+               console.log(result);
+               if(result === true) {
+                   targetDiv.remove();
+               }
+           })
+        });
+    </script>
+</body>
+</html>
