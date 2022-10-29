@@ -75,6 +75,22 @@
                     return true;
                 }
 
+                $(".btn-primary").on("click", function(e) {
+                    e.preventDefault();
+
+                    var str = "";
+
+                    $(".uploadResult li").each(function(i, obj) {
+                        var target = $(obj);
+
+                        str += "<input type='hidden' name='imageDTOList[" + i + "].imgName' value='" + target.data('name') + "'>";
+                        str += "<input type='hidden' name='imageDTOList[" + i + "].imgPath' value='" + target.data('path') + "'>";
+                        str += "<input type='hidden' name='imageDTOList[" + i + "].uuid' value='" + target.data('uuid') + "'>";
+                    });
+
+                    $(".box").html(str);
+                });
+
                 // 결과를 보여주는 함수.
                 function showResult(uploadResultArr) {
                     var uploadUL = $(".uploadResult ul");
@@ -152,23 +168,6 @@
                         }
                     });
                 });
-
-                $(".btn-primary").on("click", function(e) {
-                   e.preventDefault();
-
-                   var str = "";
-
-                   $(".uploadResult li").each(function(i, obj) {
-                       var target = $(obj);
-
-                       str += "<input type='hidden' name='imageDTOList[" + i + "].imgName' value='" + target.data('name') + "'>";
-                       str += "<input type='hidden' name='imageDTOList[" + i + "].imgPath' value='" + target.data('path') + "'>";
-                       str += "<input type='hidden' name='imageDTOList[" + i + "].uuid' value='" + target.data('uuid') + "'>";
-                   });
-
-                   $(".box").html(str);
-                });
-
             });
         </script>
     </th:block>

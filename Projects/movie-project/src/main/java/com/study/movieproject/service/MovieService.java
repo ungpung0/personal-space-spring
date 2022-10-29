@@ -2,6 +2,8 @@ package com.study.movieproject.service;
 
 import com.study.movieproject.dto.MovieDTO;
 import com.study.movieproject.dto.MovieImageDTO;
+import com.study.movieproject.dto.PageRequestDTO;
+import com.study.movieproject.dto.PageResultDTO;
 import com.study.movieproject.entity.ImageEntity;
 import com.study.movieproject.entity.MovieEntity;
 
@@ -13,6 +15,30 @@ import java.util.stream.Collectors;
 public interface MovieService {
     Long register(MovieDTO movieDTO);
 
+    PageResultDTO<MovieDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
+
+    default MovieDTO entityToDTO(MovieEntity movie, List<ImageEntity> image, Double average, Long reviewCount) {
+        MovieDTO movieDTO = MovieDTO.builder()
+                .movieId(movie.getMovieId())
+                .title(movie.getTitle())
+                .regDate(movie.getRegDate())
+                .modDate(movie.getModDate())
+                .build();
+
+        List<MovieImageDTO> imageDTO = image.stream().map(movieImage -> {
+            return MovieImageDTO.builder()
+                    .imgName(movieImage.getImgName())
+                    .imgPath(movieImage.getPath())
+                    .uuid(movieImage.getUuid())
+                    .build();
+        }).collect(Collectors.toList());
+
+        movieDTO.setImageDTOList(imageDTO);
+        movieDTO.setAverage(average);
+        movieDTO.setReviewCount(reviewCount.intValue());
+
+        return movieDTO;
+    }
     default Map<String, Object> dtoToEntity(MovieDTO movieDTO) { // Movie, MovieImage 객체를 Map으로 반환한다.
         Map<String, Object> resultEntity = new HashMap<>();
 
