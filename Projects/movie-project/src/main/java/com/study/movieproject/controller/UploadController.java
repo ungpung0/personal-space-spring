@@ -89,7 +89,7 @@ public class UploadController {
     }
 
     @GetMapping("/display")
-    public ResponseEntity<byte[]> getFile(String fileName) {
+    public ResponseEntity<byte[]> getFile(String fileName, String size) {
         ResponseEntity<byte[]> result = null;
 
         try {
@@ -100,6 +100,10 @@ public class UploadController {
             // 경로를 포함하여 File 객체를 생성한다.
             File file = new File(uploadPath + File.separator + srcFileName);
             log.info("File: " + file);
+
+            if(size != null && size.equals("1")) {
+                file = new File(file.getParent(), file.getName().substring(2));
+            }
 
             /*
                 MIME은 클라이언트에게 전송된 문서의 다양성을 알려주기 위한 메커니즘이다.

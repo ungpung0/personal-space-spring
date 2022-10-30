@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public interface MovieService {
     Long register(MovieDTO movieDTO);
 
+    MovieDTO getMovie(Long movieId);
     PageResultDTO<MovieDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
 
     default MovieDTO entityToDTO(MovieEntity movie, List<ImageEntity> image, Double average, Long reviewCount) {
