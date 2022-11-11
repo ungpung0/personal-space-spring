@@ -15,8 +15,8 @@ public class PasswordTests {
     public void testEncode() {
         String password = "1111";
         String password_encrypt = passwordEncoder.encode(password);
-
+        System.out.println("Encrypted Password : " + password_encrypt);
         boolean isMatch = passwordEncoder.matches(password, password_encrypt);
-        System.out.println("matchResult: " + isMatch);
+        System.out.println("Match Result : " + isMatch);
     }
 }
