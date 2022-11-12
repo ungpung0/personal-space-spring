@@ -1,7 +1,11 @@
 package com.study.clubproject.config;
 
+import com.study.clubproject.security.filter.ApiCheckFilter;
+import com.study.clubproject.security.filter.ApiLoginFilter;
+import com.study.clubproject.security.handler.ApiLoginFailHandler;
 import com.study.clubproject.security.handler.ClubLoginSuccessHandler;
 import com.study.clubproject.security.service.ClubUserDetailsService;
+import com.study.clubproject.security.util.JWTUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration // @Configuration: 해당 클래스를 설정 파일으로 빈에 등록한다.
 @Log4j2
@@ -36,10 +41,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
         http.logout();         // 로그아웃 처리.
         http.oauth2Login().successHandler(successHandler());    // oAuth 로그인 처리.
         http.rememberMe().tokenValiditySeconds(60*60*24*7).userDetailsService(clubUserDetailsService); // 7일 동안 자동저장.
+        http.addFilterBefore(apiCheckFilter(), UsernamePasswordAuthenticationFilter.class); // UsernamePasswordAuthentication 이전에 실행.
+        http.addFilterBefore(apiLoginFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
     public ClubLoginSuccessHandler successHandler() {
         return new ClubLoginSuccessHandler(passwordEncoder());
+    }
+
+    @Bean
+    public JWTUtil jwtUtil() {
+        return new JWTUtil();
+    }
+
+    @Bean
+    public ApiCheckFilter apiCheckFilter() {
+        return new ApiCheckFilter("/notes/**/*", jwtUtil());
+    }
+
+    @Bean
+    public ApiLoginFilter apiLoginFilter() throws Exception {
+        ApiLoginFilter apiLoginFilter = new ApiLoginFilter("/api/login", jwtUtil());
+
+        apiLoginFilter.setAuthenticationManager(authenticationManager());
+        apiLoginFilter.setAuthenticationFailureHandler(new ApiLoginFailHandler());
+
+        return apiLoginFilter;
     }
 }
